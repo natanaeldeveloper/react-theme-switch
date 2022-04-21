@@ -1,28 +1,27 @@
-import { useCallback, useState } from 'react';
-import { DefaultTheme, ThemeProvider } from 'styled-components';
+import { useState } from "react";
+import { DefaultTheme, ThemeProvider } from "styled-components";
 
-import light from './styles/themes/light';
-import dark from './styles/themes/dark';
+import GlobalStyle from "./styles/global";
 
-import Header from './components/Header';
-import GlobalStyle from './styles/global';
-import usePersistedState from './utils/usePersistedState';
+import light from "./styles/themes/light";
+import dark from "./styles/themes/dark";
+
+import Header from "./components/Header";
+import Switch from "./components/Switch";
 
 function App() {
 
-  const [ theme, setTheme ] = usePersistedState('theme', light);
+  const [ theme, setTheme ] = useState<DefaultTheme>(light)
 
-  const toggleTheme = useCallback(() => {
-    setTheme(theme.title === 'light' ? dark : light)
-  }, [theme]);
+  function handleThemeToggle() {
+    setTheme(theme.title == 'light' ? dark : light)
+  }
 
   return (
-    <div className="App">
-      <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <Header toggleTheme={toggleTheme} />
-      </ThemeProvider>
-    </div>
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <Header toggleTheme={handleThemeToggle}  />      
+    </ThemeProvider>
   )
 }
 
